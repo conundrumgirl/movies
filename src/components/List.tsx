@@ -2,36 +2,30 @@
 
 
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import React, { FunctionComponent } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import Service from '../service';
 import { Movie } from '../types';
 
 const List: FunctionComponent<{}> = () => {
-    const [isLoading, setLoading] = React.useState(false)
-    const [isError, setError] = React.useState(false)
-    const [data, setData] = React.useState<Movie[]>([]);
 
-    React.useEffect(() => {
-        const fetchData = async () => {
-            setError(false);
-            setLoading(true);
-            try {
-                const response = await Service.postData<Movie[]>('/api/movies', 'GET', {})
-                setData(response);
-            } catch (error) {
-                setError(true);
-            }
-            setLoading(false);
-        };
-        fetchData()
-    }, []);
+    // Access the client
+    const queryClient = useQueryClient()
+    queryClient.setDefaultOptions({
+        queries: {
+            refetchOnWindowFocus: false,
+            staleTime: 1000 * 5
+        }
+    })
 
+
+    const { data, isError, isLoading, error } = useQuery<Movie[], Error>(['movies'], () => Service.postData<Movie[]>('/api/movies', 'GET', {}))
 
 
     return (
         <Box sx={{ height: '100%' }}>
-            {isError && <div>Something went wrong ...</div>}
+            {isError && <div>{error.message}</div>}
             {isLoading ? (
                 <div>Loading ...</div>
             ) : (<>
@@ -47,7 +41,7 @@ const List: FunctionComponent<{}> = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.map((row) => (
+                            {data?.map((row) => (
                                 <TableRow
                                     key={row.title}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
