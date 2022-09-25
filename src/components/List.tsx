@@ -2,26 +2,13 @@
 
 
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
-import Service from '../service';
-import { Movie } from '../types';
+import { useMovies } from '../movieHooks';
 
 const List: FunctionComponent<{}> = () => {
 
-    // Access the client
-    const queryClient = useQueryClient()
-    queryClient.setDefaultOptions({
-        queries: {
-            refetchOnWindowFocus: false,
-            staleTime: 1000 * 5
-        }
-    })
-
-
-    const { data, isError, isLoading, error } = useQuery<Movie[], Error>(['movies'], () => Service.postData<Movie[]>('/api/movies', 'GET', {}))
-
+    const { data, isError, isLoading, error } = useMovies()
 
     return (
         <Box sx={{ height: '100%' }}>

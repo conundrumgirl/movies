@@ -1,26 +1,16 @@
 import { Box, Button, Card, CardActions, CardContent, TextField, Typography } from '@mui/material';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import React, { FunctionComponent } from 'react';
 import { useParams } from 'react-router-dom';
-import Service from '../service';
-import { Movie } from '../types';
+import { useMovie, useUpdateMovie } from '../movieHooks';
 
 const Detail: FunctionComponent = () => {
   let { id } = useParams();
   const [rating, setRating] = React.useState<number | undefined>(undefined);
 
   const queryClient = useQueryClient()
-  const { data, isError, isLoading, error } = useQuery<Movie, Error>(['movies', id], () => Service.postData<Movie>(`/api/movies/${id}`, 'GET'))
-
-  const { mutate, isLoading: isMutating, isError: isMutationError, error: mutationError } = useMutation(
-    (updatedMovie: Movie) => Service.postData<Movie>(`/api/movies/${id}`, 'PUT', { ...updatedMovie }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['movies'])
-      },
-    }
-  )
-
+  const { data, isError, isLoading, error } = useMovie(id)
+  const { mutate, isLoading: isMutating, isError: isMutationError, error: mutationError } = useUpdateMovie()
 
   const updateRating = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === '') {
