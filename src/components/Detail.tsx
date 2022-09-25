@@ -62,7 +62,7 @@ const Detail: FunctionComponent = () => {
           </>)}
         </CardContent>
         <CardActions sx={{ justifyContent: 'space-around' }}>
-          <Button onClick={() => updateMovie()}>Save</Button>
+          <Button onClick={() => updateMovie()}>{isMutating ? 'Saving...' : 'Save'}</Button>
         </CardActions>
       </Card>
     </Box>

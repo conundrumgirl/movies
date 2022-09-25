@@ -33,7 +33,7 @@ const modelDictionary = {
   movie: {
     id: primaryKey(faker.datatype.uuid),
     genre: () => faker.datatype.string(),
-    rating: () => faker.datatype.float({ min: 0, max: 5, precision: 0.1 }),
+    rating: () => faker.datatype.float({ min: 1, max: 5, precision: 0.1 }),
     director: () => `${faker.name.firstName()} ${faker.name.lastName()}`,
     title: () => `${faker.hacker.noun()} ${faker.hacker.verb()}`,
     description: ()=> faker.lorem.paragraphs(2),
@@ -69,7 +69,7 @@ export const handlers = [
         where: { id: { equals: req.params.id } },
         data: req.body,
       });
-      return res(ctx.json(updated!));
+      return res(ctx.delay(3000), ctx.json(updated!));
     }
   ),
 ]

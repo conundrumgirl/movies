@@ -41,9 +41,33 @@ export const useUpdateMovie = () => {
 
     const mutation = useMutation(_updateMovie,
         {
-            onSuccess: () => {
-                queryClient.invalidateQueries(['movies'])
+            onMutate: async movie => {
+                //Cancel outgoing queries so that they don't override the data
+                await queryClient.cancelQueries(MOVIE_KEYS.all)
+
+                //Snapshot the old value
+                const previousMoviesState = queryClient.getQueryData<Movie[]>(MOVIE_KEYS.all)
+                const newMovieState = previousMoviesState!.map(m => m.id === movie.id ? movie : m)
+
+                //update to the new value
+                queryClient.setQueryData(MOVIE_KEYS.all, newMovieState)
+
+                //Return a context with old and rew values
+                return { previousMoviesState, newMovieState }
             },
+            // if the mutation fails, use the values from above
+            onError: (err, newState, context) => {
+                queryClient.setQueryData(
+                    MOVIE_KEYS.all,
+                    context?.previousMoviesState
+                )
+            },
+            // refetch data (settled applies to both success and failure)
+            onSettled: () => {
+                queryClient.invalidateQueries(MOVIE_KEYS.all)
+            },
+
+
         })
     return mutation
 }
