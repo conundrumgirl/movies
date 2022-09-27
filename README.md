@@ -8,7 +8,7 @@ Use the commits in this project to follow along in this order:
 - refactor to a hook [refactor to movieHooks](https://github.com/conundrumgirl/movies/commit/fdb079c65ae14b8576c9dc930539d02e42dd29ce)
 - optimistic update [use optimistic update](https://github.com/conundrumgirl/movies/commit/495f610d5e51736b36fcb73044f4fbe2bae0f4c2)
 
-React Query documentation can be found here: ["https://react-query.tanstack.com/](https://react-query.tanstack.com)
+React Query documentation can be found here: [https://react-query.tanstack.com/](https://react-query.tanstack.com)
 
 
 ## The list of libraries used for this project
