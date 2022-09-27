@@ -5,7 +5,7 @@
 Use the commits in this project to follow along in this order:
 - original app prior to React Query [original app](https://github.com/conundrumgirl/movies/commit/7478efda3f6e402b3f8922839da457aa71118ffe)
 - introducing React Query [add React Query](https://github.com/conundrumgirl/movies/commit/9e74e87e4b6f68bde154443dbbe39513c5006740)
-- refactor to a hooks [refactor to movieHooks](https://github.com/conundrumgirl/movies/commit/fdb079c65ae14b8576c9dc930539d02e42dd29ce)
+- refactor to a hook [refactor to movieHooks](https://github.com/conundrumgirl/movies/commit/fdb079c65ae14b8576c9dc930539d02e42dd29ce)
 - optimistic update [use optimistic update](https://github.com/conundrumgirl/movies/commit/495f610d5e51736b36fcb73044f4fbe2bae0f4c2)
 
 React Query documentation can be found here: ["https://react-query.tanstack.com/](https://react-query.tanstack.com)
